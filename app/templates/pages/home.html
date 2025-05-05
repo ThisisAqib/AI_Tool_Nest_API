@@ -1,0 +1,352 @@
+{% extends "base.html" %}
+
+{% block title %}{{ project_name }} - API Examples{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Introduction Section -->
+    <section class="mb-16">
+        <h1 class="text-4xl font-bold mb-6">AI Tool Nest API</h1>
+        
+        <div class="prose dark:prose-invert max-w-none">
+            <p class="text-lg mb-6">
+                AI Tool Nest is a powerful, production-ready REST API service that provides advanced AI-powered text and image processing capabilities. Built with FastAPI and modern Python, it offers enterprise-grade features including robust authentication, rate limiting, and comprehensive monitoring.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-4">Key Features</h3>
+                    <ul class="space-y-2">
+                        <li>• Advanced text summarization with customizable parameters</li>
+                        <li>• Context-aware text paraphrasing with style options</li>
+                        <li>• Image-to-text conversion with OCR capabilities</li>
+                        <li>• Dual authentication system (JWT & API Keys)</li>
+                        <li>• Comprehensive usage analytics</li>
+                    </ul>
+                </div>
+
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-4">Technical Highlights</h3>
+                    <ul class="space-y-2">
+                        <li>• Built on FastAPI for maximum performance</li>
+                        <li>• Async database operations with PostgreSQL</li>
+                        <li>• Granular rate limiting per endpoint</li>
+                        <li>• Structured JSON logging with rotation</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-gray-800 border border-gray-700 p-6 rounded-lg mb-12">
+                <h3 class="text-xl font-semibold mb-4">Getting Started</h3>
+                <p class="mb-4">
+                    To start using the API, you'll need to:
+                </p>
+                <ol class="list-decimal list-inside space-y-2 ml-4">
+                    <li>Register for an account using the authentication endpoint</li>
+                    <li>Generate an API key for secure access</li>
+                    <li>Include your API key in request headers</li>
+                    <li>Start making requests to our endpoints</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <div class="border-t border-gray-700 my-8"></div>
+
+    <!-- API Documentation -->
+    <h2 class="text-3xl font-bold mb-8">API Documentation</h2>
+    <p class="mb-8 text-lg">Below you'll find comprehensive examples for all available endpoints. Each example is standalone and can be run directly.</p>
+
+    <!-- Table of Contents -->
+    <div class="mb-12 p-6 bg-gray-800 rounded-lg">
+        <h2 class="text-2xl font-semibold mb-4">Contents</h2>
+        <ul class="space-y-2">
+            <li><a href="#authentication" class="text-blue-400 hover:underline">Authentication</a></li>
+            <li><a href="#api-key-management" class="text-blue-400 hover:underline">API Key Management</a></li>
+            <li><a href="#ai-tools" class="text-blue-400 hover:underline">AI Tools</a></li>
+            <li><a href="#error-handling" class="text-blue-400 hover:underline">Error Handling</a></li>
+        </ul>
+    </div>
+
+    <!-- Authentication Section -->
+    <section id="authentication" class="mb-16">
+        <h2 class="text-3xl font-bold mb-6">Authentication</h2>
+
+        <!-- Health Check -->
+        <div class="mb-8">
+            <h3 class="text-2xl font-semibold mb-4">Health Check</h3>
+            <p class="mb-4">Check the API's health status.</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4"><strong>Rate Limit:</strong> 5 requests per minute</p>
+            <pre><code class="language-python">import requests
+
+url = '{{ base_url }}ai-tool-nest-api/v1/endpoints/health'
+response = requests.get(url)
+print(response.json())
+
+# Example Response:
+# {
+#     'status': 'healthy'
+# }</code></pre>
+        </div>
+
+        <!-- User Registration -->
+        <div class="mb-8">
+            <h3 class="text-2xl font-semibold mb-4">User Registration</h3>
+            <p class="mb-4">Register a new user account.</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4"><strong>Rate Limit:</strong> 5 requests per minute</p>
+            <pre><code class="language-python">import requests
+
+url = '{{ base_url }}ai-tool-nest-api/v1/endpoints/auth/register'
+payload = {
+    'username': 'your_username',
+    'email': 'your_email@example.com',
+    'password': 'your_secure_password'
+}
+
+response = requests.post(url, json=payload)
+print(response.json())
+
+# Example Response:
+# {
+#     'email': 'your_email@example.com',
+#     'username': 'your_username',
+#     'id': 5,
+#     'is_active': True
+# }</code></pre>
+        </div>
+
+        <!-- User Login -->
+        <div class="mb-8">
+            <h3 class="text-2xl font-semibold mb-4">User Login</h3>
+            <p class="mb-4">Get an access token for authentication.</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4"><strong>Rate Limit:</strong> 5 requests per minute</p>
+            <pre><code class="language-python">import requests
+
+url = '{{ base_url }}ai-tool-nest-api/v1/endpoints/auth/login'
+payload = {
+    'username': 'your_username',
+    'password': 'your_secure_password'
+}
+
+response = requests.post(url, json=payload)
+print(response.json())
+
+# Example Response:
+# {
+#     'access_token': 'your-jwt-token',
+#     'token_type': 'bearer'
+# }
+
+# Store the access token for later use
+access_token = response.json()['access_token']</code></pre>
+        </div>
+    </section>
+
+    <!-- API Key Management Section -->
+    <section id="api-key-management" class="mb-16">
+        <h2 class="text-3xl font-bold mb-6">API Key Management</h2>
+
+        <!-- Create API Key -->
+        <div class="mb-8">
+            <h3 class="text-2xl font-semibold mb-4">Create API Key</h3>
+            <p class="mb-4">Generate a new API key for accessing protected endpoints.</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4"><strong>Rate Limit:</strong> 2 requests per minute</p>
+            <pre><code class="language-python">import requests
+
+url = '{{ base_url }}ai-tool-nest-api/v1/endpoints/api-keys'
+headers = {
+    'Authorization': f'Bearer {access_token}'  # Use access_token from login
+}
+payload = {
+    'name': 'my_api_key'
+}
+
+response = requests.post(url, json=payload, headers=headers)
+print(response.json())
+
+# Example Response:
+# {
+#     'id': 2,
+#     'name': 'my_api_key',
+#     'key_prefix': '_66EFEuo',
+#     'status': 'active',
+#     'created_at': '2025-04-24T10:25:57.538980',
+#     'last_used_at': None,
+#     'revoked_at': None,
+#     'api_key': '_66EFEuoiT-hqBx43y0bGKTcDUnHQL107MSkZ9k91A4'
+# }
+
+# Store the API key for later use
+api_key = response.json()['api_key']</code></pre>
+        </div>
+
+        <!-- List API Keys -->
+        <div class="mb-8">
+            <h3 class="text-2xl font-semibold mb-4">List API Keys</h3>
+            <p class="mb-4">View all your active API keys.</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4"><strong>Rate Limit:</strong> 10 requests per minute</p>
+            <pre><code class="language-python">import requests
+
+url = '{{ base_url }}ai-tool-nest-api/v1/endpoints/api-keys'
+headers = {
+    'Authorization': f'Bearer {access_token}'  # Use access_token from login
+}
+
+response = requests.get(url, headers=headers)
+api_keys = response.json()['api_keys']
+
+# Print API keys in a readable format
+print(f"Total API keys: {len(api_keys)}")
+for key in api_keys:
+    print(
+        f"ID: {key['id']} || "
+        f"Name: {key['name']} || "
+        f"Key Prefix: {key['key_prefix']} || "
+        f"Status: {key['status']} || "
+        f"Created at: {key['created_at']} || "
+        f"Last Used at: {key['last_used_at']}"
+    )</code></pre>
+        </div>
+
+        <!-- Get API Key Usage -->
+        <div class="mb-8">
+            <h3 class="text-2xl font-semibold mb-4">Get API Key Usage</h3>
+            <p class="mb-4">Check usage statistics for a specific API key.</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4"><strong>Rate Limit:</strong> 10 requests per minute</p>
+            <pre><code class="language-python">import requests
+
+api_key_id = 123  # Replace with your API key ID
+url = f'{{ base_url }}ai-tool-nest-api/v1/endpoints/api-keys/{api_key_id}/usage'
+headers = {
+    'Authorization': f'Bearer {access_token}'  # Use access_token from login
+}
+
+response = requests.get(url, headers=headers)
+print(response.json())</code></pre>
+        </div>
+
+        <!-- Delete API Key -->
+        <div class="mb-8">
+            <h3 class="text-2xl font-semibold mb-4">Delete API Key</h3>
+            <p class="mb-4">Revoke an existing API key.</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4"><strong>Rate Limit:</strong> 2 requests per minute</p>
+            <pre><code class="language-python">import requests
+
+api_key_id = 123  # Replace with the API key ID you want to delete
+url = f'{{ base_url }}ai-tool-nest-api/v1/endpoints/api-keys/{api_key_id}'
+headers = {
+    'Authorization': f'Bearer {access_token}'  # Use access_token from login
+}
+
+response = requests.delete(url, headers=headers)
+print(response.json())</code></pre>
+        </div>
+    </section>
+
+    <!-- AI Tools Section -->
+    <section id="ai-tools" class="mb-16">
+        <h2 class="text-3xl font-bold mb-6">AI Tools</h2>
+
+        <!-- Text Summarization -->
+        <div class="mb-8">
+            <h3 class="text-2xl font-semibold mb-4">Text Summarization</h3>
+            <p class="mb-4">Generate a concise summary of provided text.</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4"><strong>Rate Limit:</strong> 5 requests per minute</p>
+            <pre><code class="language-python">import requests
+
+url = '{{ base_url }}ai-tool-nest-api/v1/endpoints/ai-tools/summarize'
+headers = {
+    'X-API-Key': api_key  # Use api_key from the create API key response
+}
+payload = {
+    'text': '''A Python developer is needed to join an AI project focusing on building an intelligent 
+    chatbot and AI agent. The ideal candidate should have strong Python proficiency, experience 
+    integrating AI/ML services and APIs, and good communication skills in English. Experience in 
+    Python web frameworks, vector databases, SQL databases, asynchronous programming, and Docker 
+    is also required.''',
+    'include_keywords': True
+}
+
+response = requests.post(url, json=payload, headers=headers)
+print(response.json())</code></pre>
+        </div>
+
+        <!-- Text Paraphrasing -->
+        <div class="mb-8">
+            <h3 class="text-2xl font-semibold mb-4">Text Paraphrasing</h3>
+            <p class="mb-4">Rewrite text in different styles.</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4"><strong>Rate Limit:</strong> 5 requests per minute</p>
+            <pre><code class="language-python">import requests
+
+url = '{{ base_url }}ai-tool-nest-api/v1/endpoints/ai-tools/paraphrase'
+headers = {
+    'X-API-Key': api_key  # Use api_key from the create API key response
+}
+payload = {
+    'text': '''A Python developer is needed to join an AI project focusing on building an intelligent 
+    chatbot and AI agent. The ideal candidate should have strong Python proficiency, experience 
+    integrating AI/ML services and APIs, and good communication skills in English.''',
+    'style': 'formal',
+    'intensity': 'high',
+    'length_option': 'longer'
+}
+
+response = requests.post(url, json=payload, headers=headers)
+print(response.json())</code></pre>
+        </div>
+
+        <!-- Image to Text -->
+        <div class="mb-8">
+            <h3 class="text-2xl font-semibold mb-4">Image to Text</h3>
+            <p class="mb-4">Convert images to text using URL or file upload.</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4"><strong>Rate Limit:</strong> 5 requests per minute</p>
+            <pre><code class="language-python">import requests
+
+# Using Image URL
+url = '{{ base_url }}ai-tool-nest-api/v1/endpoints/ai-tools/image-to-text'
+headers = {
+    'X-API-Key': api_key  # Use api_key from the create API key response
+}
+payload = {
+    'image_url': 'https://example.com/path/to/your/image.jpg',
+    'mode': 'ocr',
+    'detail_level': 'standard'
+}
+
+response = requests.post(url, json=payload, headers=headers)
+print(response.json())
+
+# Using Image File
+file_path = 'path/to/your/image.jpg'  # Replace with your image path
+with open(file_path, 'rb') as file:
+    files = {'image_file': (file_path, file, 'image/jpeg')}
+    response = requests.post(url, files=files, headers=headers, data=payload)
+    print(response.json())</code></pre>
+        </div>
+    </section>
+
+    <!-- Error Handling Section -->
+    <section id="error-handling" class="mb-16">
+        <h2 class="text-3xl font-bold mb-6">Error Handling</h2>
+        <p class="mb-4">Here's how to handle errors when making API requests:</p>
+        <pre><code class="language-python">import requests
+
+try:
+    # Make your API request here
+    response = requests.post(url, json=payload, headers=headers)
+    response.raise_for_status()  # Raises an error for bad status codes
+    result = response.json()
+    print("Success:", result)
+    
+except requests.exceptions.RequestException as e:
+    if hasattr(e.response, 'json'):
+        error_detail = e.response.json()
+        print(f"API Error: {error_detail}")
+    else:
+        print(f"Request Error: {str(e)}")
+        
+except Exception as e:
+    print(f"Unexpected Error: {str(e)}")</code></pre>
+    </section>
+</div>
+{% endblock %} 

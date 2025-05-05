@@ -1,0 +1,47 @@
+[project]
+name = "ai-tool-nest-api"
+version = "0.1.0"
+description = "REST API for AI Tool Nest"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "alembic[tz]>=1.15.2",
+    "asyncpg>=0.30.0",
+    "email-validator>=2.2.0",
+    "fastapi>=0.115.12",
+    "jinja2>=3.1.6",
+    "openai>=1.75.0",
+    "passlib[bcrypt]>=1.7.4",
+    "pydantic-settings>=2.9.1",
+    "pyjwt>=2.10.1",
+    "python-jose[cryptography]>=3.4.0",
+    "python-multipart>=0.0.20",
+    "slowapi>=0.1.9",
+    "sqlmodel>=0.0.24",
+    "uvicorn>=0.34.2",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=8.3.5",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "httpx>=0.24.1",  # Required for FastAPI TestClient
+]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-v --cov=app --cov-report=term-missing"
+testpaths = [
+    "tests",
+]
+asyncio_mode = "auto"
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "coverage>=7.8.0",
+    "ipykernel>=6.29.5",
+    "pytest>=8.3.5",
+    "requests>=2.32.3",
+]
