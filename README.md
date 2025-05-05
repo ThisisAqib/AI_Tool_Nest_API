@@ -53,8 +53,8 @@ Our documentation is organized into several key sections:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/thisisaqib/ai-tool-nest-api.git
-cd ai-tool-nest-api
+git clone https://github.com/thisisaqib/ai_tool_nest_api.git
+cd ai_tool_nest_api
 ```
 
 2. Install dependencies using UV:
